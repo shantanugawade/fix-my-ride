@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMyRide - Forum</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; }
+        header { background-color: #333; color: white; text-align: center; padding: 20px; }
+        main { text-align: center; padding: 20px; }
+        .post-card { background: white; margin: 20px auto; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 60%; text-align: left; }
+        .post-card h3 { margin: 0 0 10px; color: #333; }
+        .post-card p { margin: 5px 0; color: #555; }
+        .post-card .author { font-size: 0.9em; color: #888; }
+        .new-post { background: white; padding: 20px; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 60%; }
+        textarea { width: 100%; height: 80px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; }
+        button { background-color: #ff4081; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #e91e63; }
+        .post-title { color: #007bff; text-decoration: none; font-weight: bold; }
+        .post-title:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">FixMyRide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('compare_services') }}">Compare Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('diagnose') }}">Diagnose Issues</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('spare_parts') }}">Spare Parts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('forum') }}">Community Forum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>FixMyRide - Community Forum</h1>
+    </header>
+
+    <main>
+        <h2>Join the Discussion</h2>
+
+        <!-- New Post Form -->
+        <div class="new-post">
+            <h3>Create a New Post</h3>
+            <textarea id="postContent" placeholder="What's on your mind?"></textarea>
+            <button onclick="postMessage()">Post</button>
+        </div>
+
+        <!-- Forum Posts -->
+        <div class="post-card">
+            <h3><a href="post_details.html?id=1" class="post-title">Best Engine Oil Brands?</a></h3>
+            <p>What are your recommendations for long-lasting engine oil?</p>
+            <p class="author">Posted by: SpeedyFix</p>
+        </div>
+
+        <div class="post-card">
+            <h3><a href="post_details.html?id=2" class="post-title">Why is my car making a clicking noise?</a></h3>
+            <p>I've noticed a clicking sound when I start my car. Any ideas?</p>
+            <p class="author">Posted by: CarGuy24</p>
+        </div>
+
+        <div class="post-card">
+            <h3><a href="post_details.html?id=3" class="post-title">Brake issues at high speed</a></h3>
+            <p>Brakes seem weak when driving over 60 km/h. What could be the problem?</p>
+            <p class="author">Posted by: RoadRunner</p>
+        </div>
+    </main>
+
+    <script>
+        function postMessage() {
+            let content = document.getElementById("postContent").value.trim();
+            if (content === "") {
+                alert("Please enter some text before posting.");
+                return;
+            }
+            alert("Your post has been submitted!");
+            document.getElementById("postContent").value = ""; // Clear textarea
+        }
+    </script>
+
+</body>
+</html>

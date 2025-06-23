@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMyRide - Compare Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        header { background-color: #333; color: white; text-align: center; padding: 20px; }
+        main { text-align: center; padding: 20px; }
+        table { width: 90%; margin: auto; border-collapse: collapse; background: white; }
+        th, td { padding: 12px; text-align: center; border: 1px solid #ddd; }
+        th { background-color: #333; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        .details-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 6px 12px;
+            background: #ff4081;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .details-btn:hover { background: #e91e63; }
+        .search-bar {
+            margin: 20px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">FixMyRide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('compare_services') }}">Compare Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('diagnose') }}">Diagnose Issues</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('spare_parts') }}">Spare Parts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('forum') }}">Community Forum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <h1>FixMyRide - Compare Services</h1>
+    </header>
+
+    <main>
+        <h2>Select Service Centers to Compare</h2>
+
+        <!-- Search Bar -->
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search by garage name or address" onkeyup="filterGarages()">
+
+        <table id="garages-table">
+            <tr>
+                <th>Service Center</th>
+                <th>Oil Change</th>
+                <th>Brake Repair</th>
+                <th>Battery Replacement</th>
+                <th>Car Wash</th>
+                <th>Wheel Alignment</th>
+                <th>Engine Diagnosis</th>
+                <th>Location</th>
+            </tr>
+            <tr>
+                <td>AutoFix Garage</td>
+                <td>₹1200</td>
+                <td>₹2500</td>
+                <td>₹1800</td>
+                <td>₹600</td>
+                <td>₹1500</td>
+                <td>₹3000</td>
+                <td>MG Road, Pune <a href="https://www.google.com/maps?q=AutoFix+Garage,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>Speedy Repairs</td>
+                <td>₹1000</td>
+                <td>₹2300</td>
+                <td>₹1700</td>
+                <td>₹500</td>
+                <td>₹1400</td>
+                <td>₹2900</td>
+                <td>FC Road, Pune <a href="https://www.google.com/maps?q=Speedy+Repairs,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>Rapid Auto Care</td>
+                <td>₹1100</td>
+                <td>₹2400</td>
+                <td>₹1750</td>
+                <td>₹550</td>
+                <td>₹1450</td>
+                <td>₹2950</td>
+                <td>Baner, Pune <a href="https://www.google.com/maps?q=Rapid+Auto+Care,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>Elite Mechanics</td>
+                <td>₹1250</td>
+                <td>₹2600</td>
+                <td>₹1850</td>
+                <td>₹700</td>
+                <td>₹1550</td>
+                <td>₹3100</td>
+                <td>Kothrud, Pune <a href="https://www.google.com/maps?q=Elite+Mechanics,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>Green Drive Services</td>
+                <td>₹1050</td>
+                <td>₹2200</td>
+                <td>₹1650</td>
+                <td>₹480</td>
+                <td>₹1350</td>
+                <td>₹2800</td>
+                <td>Hadapsar, Pune <a href="https://www.google.com/maps?q=Green+Drive+Services,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <!-- Additional Garages -->
+            <tr>
+                <td>CarFix Experts</td>
+                <td>₹1300</td>
+                <td>₹2700</td>
+                <td>₹1900</td>
+                <td>₹650</td>
+                <td>₹1600</td>
+                <td>₹3200</td>
+                <td>Shivajinagar, Pune <a href="https://www.google.com/maps?q=CarFix+Experts,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>TurboFix Auto</td>
+                <td>₹1400</td>
+                <td>₹2800</td>
+                <td>₹2000</td>
+                <td>₹700</td>
+                <td>₹1700</td>
+                <td>₹3300</td>
+                <td>Koregaon Park, Pune <a href="https://www.google.com/maps?q=TurboFix+Auto,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>QuickFix Garage</td>
+                <td>₹1100</td>
+                <td>₹2400</td>
+                <td>₹1750</td>
+                <td>₹600</td>
+                <td>₹1450</td>
+                <td>₹2900</td>
+                <td>Viman Nagar, Pune <a href="https://www.google.com/maps?q=QuickFix+Garage,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+            <tr>
+                <td>Pune Auto Clinic</td>
+                <td>₹1000</td>
+                <td>₹2300</td>
+                <td>₹1700</td>
+                <td>₹550</td>
+                <td>₹1400</td>
+                <td>₹2800</td>
+                <td>Aundh, Pune <a href="https://www.google.com/maps?q=Pune+Auto+Clinic,+Pune" target="_blank" class="details-btn">View on Google Maps</a></td>
+            </tr>
+        </table>
+    </main>
+
+    <script>
+        function filterGarages() {
+            const filter = document.getElementById('search-bar').value.toLowerCase();
+            const rows = document.querySelectorAll('#garages-table tr');
+            
+            rows.forEach(row => {
+                const name = row.cells[0]?.innerText.toLowerCase();
+                const address = row.cells[7]?.innerText.toLowerCase();
+                
+                if (name && address && (name.includes(filter) || address.includes(filter))) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMyRide - Spare Parts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; }
+        header { background-color: #333; color: white; text-align: center; padding: 20px; position: relative; }
+        main { text-align: center; padding: 20px; }
+        .cart-btn { position: absolute; top: 20px; right: 20px; background: #ff4081; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+        .part-card { display: flex; justify-content: space-between; align-items: center; background: white; margin: 20px auto; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 60%; text-align: left; }
+        .part-info { flex: 1; }
+        .part-card h3 { margin: 0 0 10px; color: #333; }
+        .part-card p { margin: 5px 0; color: #555; }
+        .price { font-weight: bold; color: #e91e63; }
+        .part-card button { background: #ff4081; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .part-card button:hover { background: #e91e63; }
+        .part-card img { width: 120px; height: auto; border-radius: 5px; margin-left: 15px; }
+        #cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .cart-content { background: white; padding: 20px; border-radius: 8px; width: 50%; margin: 100px auto; text-align: center; }
+        .close-btn { background: red; color: white; padding: 5px 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FixMyRide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Compare Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Diagnose Issues</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Spare Parts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Community Forum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <h1>FixMyRide - Spare Parts Store</h1>
+        <button class="cart-btn" onclick="viewCart()">🛒 View Cart (<span id="cart-count">0</span>)</button>
+    </header>
+
+    <main>
+        <h2>Available Spare Parts</h2>
+        <div id="parts-list"></div>
+    </main>
+
+    <div id="cart-modal">
+        <div class="cart-content">
+            <h2>Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <p><strong>Total: ₹<span id="cart-total">0</span></strong></p>
+            <button onclick="proceedToPayment()">Proceed to Payment</button>
+            <button class="close-btn" onclick="closeCart()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const spareParts = [
+            { name: "Brake Pads", price: 1200, image: "brake_pad.jpg" },
+            { name: "Engine Oil", price: 800, image: "engine oil.jpg" },
+            { name: "Car Battery", price: 4500, image: "battery.jpg" },
+            { name: "Air Filter", price: 600, image: "air filter.jpg" },
+            { name: "Spark Plugs", price: 500, image: "spark plugs.jpg" },
+            { name: "Clutch Plate", price: 3500, image: "clutch plate.jpg" },
+            { name: "Headlights", price: 3000, image: "headlights.jpg" },
+            { name: "Radiator", price: 5000, image: "radiator.jpg" },
+            { name: "Fuel Pump", price: 2500, image: "fuel pump.jpg" }
+        ];
+
+        function loadParts() {
+            let partsHTML = "";
+            spareParts.forEach(part => {
+                partsHTML += `
+                    <div class="part-card">
+                        <div class="part-info">
+                            <h3>${part.name}</h3>
+                            <p>Quality spare part for your vehicle.</p>
+                            <p class="price">Price: ₹${part.price}</p>
+                            <button onclick="addToCart('${part.name}', ${part.price})">Add to Cart</button>
+                        </div>
+                        <img src="static/${part.image}" alt="${part.name}">
+                    </div>`;
+            });
+            document.getElementById("parts-list").innerHTML = partsHTML;
+        }
+
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ name: item, price: price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartCount();
+            alert(item + " added to cart at ₹" + price);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cart-count").innerText = cart.length;
+        }
+
+        function viewCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+            document.getElementById("cart-items").innerHTML = cart.map(item => `<li>${item.name} - ₹${item.price}</li>`).join("\n");
+            document.getElementById("cart-total").innerText = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById("cart-modal").style.display = "block";
+        }
+
+        function closeCart() {
+            document.getElementById("cart-modal").style.display = "none";
+        }
+
+        function proceedToPayment() {
+    console.log("Redirecting to payment...");  // Debugging
+    window.location.href = "/payment";
+}
+
+
+        
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadParts();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
